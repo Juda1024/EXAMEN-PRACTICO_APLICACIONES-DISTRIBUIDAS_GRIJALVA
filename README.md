@@ -32,7 +32,6 @@ Abrir **tres terminales** en VS Code, todas ubicadas en la carpeta del proyecto.
 ```bash
 docker compose run --build --rm --service-ports servidor
 ```
-
 El comando crea la imagen si es necesario y ejecuta el servidor en modo interactivo. **Se usa `--service-ports` para publicar el puerto 5000** y poder conectar los clientes desde Windows. Al dejar esta terminal abierta, también podemos escribir mensajes como SERVIDOR.
 
 ### Terminal 2: Cliente 1

@@ -5,31 +5,34 @@ HOST = "0.0.0.0"  # Aceptamos conexiones desde fuera del contenedor.
 PORT = 5000
 
 clientes = {}  # Guardamos la conexión de cada cliente y su nombre.
-candado = threading.Lock()
-activo = threading.Event()
+candado = threading.Lock() #Evitamos que dos hilos accedan a la lista de clientes al mismo tiempo.
+activo = threading.Event() #activo es un evento que indica si el servidor está activo o no.
 activo.set()
 
-
+#Funcion para enviar un mensaje a todos los clientes conectados.
 def enviar_a_todos(mensaje):
     # Copiamos las conexiones para no bloquear la llegada de otros clientes.
     with candado:
         conexiones = list(clientes.keys())
-
+    # Enviamos el mensaje a todos los clientes conectados.
     for conexion in conexiones:
         try:
             conexion.sendall((mensaje + "\n").encode("utf-8"))
         except OSError:
             pass
 
-
+#Función que atiende a un cliente en un hilo separado.
 def atender_cliente(conexion, direccion):
     nombre = None
     try:
+        # Abrimos un archivo de texto para leer las líneas que envía el cliente.
         with conexion:
             with conexion.makefile("r", encoding="utf-8") as entrada:
                 # El primer dato que recibimos es el nombre del cliente.
                 nombre = entrada.readline().strip().upper()
 
+                #comprobamos si el cliente es permitido y si ya hay dos clientes conectados.
+                #candado se usa para evitar que dos hilos accedan a la lista de clientes al mismo tiempo.
                 with candado:
                     permitido = (nombre in ("CLIENTE 1", "CLIENTE 2")
                                  and nombre not in clientes.values()
@@ -127,7 +130,6 @@ def main():
             except OSError:
                 pass
         print("\nServidor cerrado.", flush=True)
-
 
 if __name__ == "__main__":
     main()

@@ -1,7 +1,7 @@
 services:
   servidor:
-    build: .
+    build: . # Construye la imagen a partir del Dockerfile en el directorio actual.
     ports:
       - "5000:5000"  # Permite que los clientes de VS Code se conecten.
     stdin_open: true  # Dejamos habilitada la entrada de teclado al servidor.
-    tty: true
+    tty: true   # Dejamos habilitada la entrada de teclado al servidor.

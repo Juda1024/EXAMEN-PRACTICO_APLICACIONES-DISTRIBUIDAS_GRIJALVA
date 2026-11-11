@@ -18,7 +18,7 @@ def recibir(entrada):
 
 def main():
     # Usamos un solo archivo para Cliente 1 y Cliente 2.
-    if len(sys.argv) != 2 or sys.argv[1] not in ("1", "2"):
+    if len(sys.argv) != 2 or sys.argv[1] not in ("1", "2"):  #len devuelve el número de argumentos de la línea de comandos.
         print("Uso: python cliente.py 1  (o python cliente.py 2)")
         return
 
@@ -38,7 +38,7 @@ def main():
             return
 
         print(f"Conectado como {nombre}. Escribe 'salir' para terminar.")
-        threading.Thread(target=recibir, args=(entrada,), daemon=True).start()
+        threading.Thread(target=recibir, args=(entrada,), daemon=True).start() 
 
         # Enviamos mensajes al servidor.
         while True:
